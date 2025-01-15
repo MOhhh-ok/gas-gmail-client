@@ -19,11 +19,11 @@ export declare class GmailClient {
         labelIds?: string[];
         includeSpamTrash?: boolean;
     }): {
-        messages: {
+        messages?: {
             id: string;
             threadId: string;
         }[];
-        nextPageToken: string;
+        nextPageToken?: string;
         resultSizeEstimate: number;
     };
     getMessage(id: string): Message;
