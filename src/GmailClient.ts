@@ -30,8 +30,8 @@ export class GmailClient {
     const url = `https://gmail.googleapis.com/gmail/v1/users/${this.userId}/messages`;
     const res = this.getRequest(url, params);
     const data: {
-      messages: { id: string; threadId: string }[];
-      nextPageToken: string;
+      messages?: { id: string; threadId: string }[];
+      nextPageToken?: string;
       resultSizeEstimate: number;
     } = JSON.parse(res.getContentText());
     return data;
