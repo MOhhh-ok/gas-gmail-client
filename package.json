@@ -1,0 +1,17 @@
+{
+  "name": "@masa-dev/gas-gmail-client",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "0.0.1",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/google-apps-script": "^1.0.91",
+    "typescript": "^5.7.3"
+  }
+}
