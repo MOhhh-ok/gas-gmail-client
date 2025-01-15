@@ -1,10 +1,12 @@
 import { Message } from './types';
 
 export class GmailClient {
-  constructor(
-    private readonly token: string,
-    private readonly userId: string = 'me'
-  ) {}
+  private readonly token: string;
+  private readonly userId: string;
+  constructor(params: { token: string; userId?: string }) {
+    this.token = params.token;
+    this.userId = params.userId ?? 'me';
+  }
 
   getProfile() {
     const url = `https://gmail.googleapis.com/gmail/v1/users/${this.userId}/profile`;
@@ -39,17 +41,32 @@ export class GmailClient {
     const url = `https://gmail.googleapis.com/gmail/v1/users/${this.userId}/messages/${id}`;
     const res = this.getRequest(url);
     const data: Message = JSON.parse(res.getContentText());
-    console.log({ data });
-    const body = data.payload.body;
-    console.log({ body });
-    const bodyData = body.data;
-    console.log({ bodyData });
-    const decodedData = Utilities.base64Decode(bodyData);
-    console.log({ decodedData });
-    const decodedDataString = Utilities.base64Decode(bodyData).toString();
-    console.log({ decodedDataString });
-    data.payload.body.data = decodedDataString;
     return data;
+  }
+
+  messageToTexts(message: Message): { mimeType: string; body: string }[] {
+    const parts = this.getAllParts(message);
+    return parts
+      .map((part) => {
+        const bodyData = part?.body?.data;
+        if (!bodyData) return null;
+        const decodedData = Utilities.base64DecodeWebSafe(bodyData);
+        const decodedDataString =
+          Utilities.newBlob(decodedData).getDataAsString();
+        return { mimeType: part.mimeType, body: decodedDataString };
+      })
+      .filter((text) => text !== null);
+  }
+
+  private getAllParts(message: Message) {
+    const queue = [message.payload];
+    const result = [];
+    while (queue.length > 0) {
+      const part = queue.shift();
+      result.push(part);
+      part?.parts?.forEach((p) => queue.push(p));
+    }
+    return result;
   }
 
   private getRequest(url: string, params?: any) {
