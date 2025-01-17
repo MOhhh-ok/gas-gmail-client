@@ -75,7 +75,10 @@ export class GmailClient {
   }
 
   private getRequest(url: string, params?: any) {
-    const url2 = `${url}?${this.paramsToQuery(params ?? {})}`;
+    if (!this.token) {
+      throw new Error('Token is required');
+    }
+    const url2 = params ? `${url}?${this.paramsToQuery(params ?? {})}` : url;
     console.log('get', url2);
     const headers = {
       Authorization: `Bearer ${this.token}`,
