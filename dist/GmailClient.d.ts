@@ -31,6 +31,7 @@ export declare class GmailClient {
         mimeType: string;
         body: string;
     }[];
+    messageToSubject(message: Message): string | undefined;
     private getAllParts;
     private getRequest;
     private paramsToQuery;

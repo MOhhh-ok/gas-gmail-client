@@ -58,6 +58,11 @@ export class GmailClient {
       .filter((text) => text !== null);
   }
 
+  messageToSubject(message: Message) {
+    return message.payload?.headers?.find((header) => header.name === 'Subject')
+      ?.value;
+  }
+
   private getAllParts(message: Message) {
     const queue = [message.payload];
     const result = [];
