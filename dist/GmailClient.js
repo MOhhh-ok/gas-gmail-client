@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GmailClient = void 0;
+const gmail_api_parse_message_ts_1 = require("gmail-api-parse-message-ts");
 class GmailClient {
     constructor(params) {
         var _a;
@@ -24,6 +25,11 @@ class GmailClient {
         const res = this.getRequest(url);
         const data = JSON.parse(res.getContentText());
         return data;
+    }
+    parseMessage(message) {
+        const parser = new gmail_api_parse_message_ts_1.ParseGmailApi();
+        const parsedMessage = parser.parseMessage(message);
+        return parsedMessage;
     }
     messageToTexts(message) {
         const parts = this.getAllParts(message);

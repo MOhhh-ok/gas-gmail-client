@@ -1,6 +1,6 @@
 {
   "name": "@masa-dev/gas-gmail-client",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publishConfig": {
     "access": "public"
   },
@@ -17,5 +17,7 @@
     "@types/google-apps-script": "^1.0.91",
     "typescript": "^5.7.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "gmail-api-parse-message-ts": "^2.2.33"
+  }
 }

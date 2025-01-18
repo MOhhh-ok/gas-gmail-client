@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      gmail-api-parse-message-ts:
+        specifier: ^2.2.33
+        version: 2.2.33
     devDependencies:
       '@types/google-apps-script':
         specifier: ^1.0.91
@@ -20,6 +24,15 @@ packages:
   '@types/google-apps-script@1.0.91':
     resolution: {integrity: sha512-si93/GKuhaMPgbYUnGpU4jzqkid4+zxHi+Sm0IyGUJ/OPha5sM/hklGEyosSxsoE5Qkla3f7O64rJ05NdRQpJA==}
 
+  base-64@0.1.0:
+    resolution: {integrity: sha512-Y5gU45svrR5tI2Vt/X9GPd3L0HNIKzGu202EjxrXMpuc2V2CiKgemAbUUsqYmZJvPtCXoUKjNZwBJzsNScUbXA==}
+
+  gmail-api-parse-message-ts@2.2.33:
+    resolution: {integrity: sha512-MKyqjroRM+7Idb/z4Gjed4qZ8Eyx/dPDA7MYcYvus97R8c5y6xe7mmlEAtimtGRFd9ee90DZDvvEXhgI96BkAA==}
+
+  klingsten-snippets@1.0.26:
+    resolution: {integrity: sha512-xCUepS2oGamQWMsCqrIAg18HIMlpcH8gTSDn823zlVTAu3PJRtwSQsMpWvenZnTEgqsVDDzYf9ienSr1ofPOgg==}
+
   typescript@5.7.3:
     resolution: {integrity: sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==}
     engines: {node: '>=14.17'}
@@ -28,5 +41,14 @@ packages:
 snapshots:
 
   '@types/google-apps-script@1.0.91': {}
+
+  base-64@0.1.0: {}
+
+  gmail-api-parse-message-ts@2.2.33:
+    dependencies:
+      base-64: 0.1.0
+      klingsten-snippets: 1.0.26
+
+  klingsten-snippets@1.0.26: {}
 
   typescript@5.7.3: {}

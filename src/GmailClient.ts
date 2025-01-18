@@ -1,4 +1,5 @@
 import { Message } from './types';
+import { ParseGmailApi } from 'gmail-api-parse-message-ts';
 
 export class GmailClient {
   private readonly token: string;
@@ -44,35 +45,41 @@ export class GmailClient {
     return data;
   }
 
-  messageToTexts(message: Message): { mimeType: string; body: string }[] {
-    const parts = this.getAllParts(message);
-    return parts
-      .map((part) => {
-        const bodyData = part?.body?.data;
-        if (!bodyData) return null;
-        const decodedData = Utilities.base64DecodeWebSafe(bodyData);
-        const decodedDataString =
-          Utilities.newBlob(decodedData).getDataAsString();
-        return { mimeType: part.mimeType, body: decodedDataString };
-      })
-      .filter((text) => text !== null);
+  parseMessage(message: Message) {
+    const parser = new ParseGmailApi();
+    const parsedMessage = parser.parseMessage(message);
+    return parsedMessage;
   }
+
+  // messageToTexts(message: Message): { mimeType: string; body: string }[] {
+  //   const parts = this.getAllParts(message);
+  //   return parts
+  //     .map((part) => {
+  //       const bodyData = part?.body?.data;
+  //       if (!bodyData) return null;
+  //       const decodedData = Utilities.base64DecodeWebSafe(bodyData);
+  //       const decodedDataString =
+  //         Utilities.newBlob(decodedData).getDataAsString();
+  //       return { mimeType: part.mimeType, body: decodedDataString };
+  //     })
+  //     .filter((text) => text !== null);
+  // }
 
   messageToSubject(message: Message) {
     return message.payload?.headers?.find((header) => header.name === 'Subject')
       ?.value;
   }
 
-  private getAllParts(message: Message) {
-    const queue = [message.payload];
-    const result = [];
-    while (queue.length > 0) {
-      const part = queue.shift();
-      result.push(part);
-      part?.parts?.forEach((p) => queue.push(p));
-    }
-    return result;
-  }
+  // private getAllParts(message: Message) {
+  //   const queue = [message.payload];
+  //   const result = [];
+  //   while (queue.length > 0) {
+  //     const part = queue.shift();
+  //     result.push(part);
+  //     part?.parts?.forEach((p) => queue.push(p));
+  //   }
+  //   return result;
+  // }
 
   private getRequest(url: string, params?: any) {
     if (!this.token) {

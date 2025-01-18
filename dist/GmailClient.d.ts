@@ -27,6 +27,7 @@ export declare class GmailClient {
         resultSizeEstimate: number;
     };
     getMessage(id: string): Message;
+    parseMessage(message: Message): import("gmail-api-parse-message-ts").IEmail;
     messageToTexts(message: Message): {
         mimeType: string;
         body: string;
